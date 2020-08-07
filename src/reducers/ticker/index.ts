@@ -1,7 +1,15 @@
 import { ACTION_TYPES } from '../../constants/ticker';
+import {
+  ITickerWsInfo,
+  ITickerWsRequest,
+  ITickerWsSnapshot,
+  ITickerWsSubscribed,
+  ITickerWsMessage,
+  TTicker
+} from 'actions/ticker';
 
 export type TTickerInitialState = {
-  data?: string;
+  data?: TTicker;
   isLoading?: boolean;
   error?: any;
 };
@@ -12,20 +20,29 @@ export const initialTickerState: TTickerInitialState = {
 
 const ticker = (
   state: TTickerInitialState = initialTickerState,
-  { type, payload }: any
+  {
+    type,
+    payload
+  }:
+    | ITickerWsInfo
+    | ITickerWsRequest
+    | ITickerWsSnapshot
+    | ITickerWsSubscribed
+    | ITickerWsMessage
 ) => {
   if (type === ACTION_TYPES.TICKER_WS_REQUEST) {
     return {
       ...state,
-      isLoading: true
+      isLoading: true,
+      data: undefined
     };
   }
 
-  if (type === ACTION_TYPES.TICKER_WS_ON_MESSAGE) {
+  if (type === ACTION_TYPES.TICKER_WS_MESSAGE) {
     return {
       ...state,
-      data: payload,
-      isLoading: false
+      isLoading: false,
+      data: payload
     };
   }
 

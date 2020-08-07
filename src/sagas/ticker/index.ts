@@ -2,8 +2,7 @@ import { SagaIterator } from '@redux-saga/core';
 import { takeEvery, call, take, put } from 'redux-saga/effects';
 import { ACTION_TYPES } from '../../constants/ticker';
 import { openWs } from '../../services/ws';
-import { tickerWsOnMessage } from '../../actions/ticker';
-import { formatResponseMessage } from '../../services/formatters/ticker';
+import { getActionByMessage } from './helpers';
 
 function* onTickerWsOnRequest({ payload }: any): SagaIterator {
   const subscribeMessage = {
@@ -12,18 +11,23 @@ function* onTickerWsOnRequest({ payload }: any): SagaIterator {
     symbol: payload
   };
 
-  try {
-    const channel = yield call(openWs, subscribeMessage);
-    console.log(channel);
+  const channel = yield call(openWs, subscribeMessage);
 
+  try {
     while (true) {
       const message = yield take(channel);
-      console.log(message);
-      const formattedMessage = formatResponseMessage(message);
-      yield put(tickerWsOnMessage(formattedMessage));
+      console.log('here is the message: ', message);
+
+      const { action, payload } = getActionByMessage(message);
+
+      console.log(action, payload);
+
+      if (action) {
+        yield put(action(payload));
+      }
     }
-  } catch (err) {
-    console.log('catching', err);
+  } finally {
+    console.log('end');
   }
 }
 

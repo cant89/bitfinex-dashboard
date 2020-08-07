@@ -10,7 +10,7 @@ function* onBookWsOnRequest({ payload }: any): SagaIterator {
     event: 'subscribe',
     channel: 'book',
     symbol: payload.symbol,
-    freq: 'F0',
+    freq: 'F1',
     prec: payload.precision
   };
 

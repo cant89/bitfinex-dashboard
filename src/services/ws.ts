@@ -1,4 +1,4 @@
-import { eventChannel } from 'redux-saga';
+import { eventChannel, EventChannel } from 'redux-saga';
 
 type TSubscribeMsg = {
   event: string;
@@ -6,50 +6,70 @@ type TSubscribeMsg = {
   symbol: string;
 };
 
-const createChannel = (subscribeMsg: TSubscribeMsg) => (emitter: any) => {
-  const ws = new WebSocket('wss://api-pub.bitfinex.com/ws/2');
-  let pingTimeout: number, pingInterval: number;
+const PING_PAYLOAD = JSON.stringify({
+  event: 'ping',
+  cid: 1234
+});
 
-  function reloadChannel() {
-    console.log('reloading channel...');
-    createChannel(subscribeMsg)(emitter);
-  }
+export const ERR_CONNECTION_LOST = 'ERR_CONNECTION_LOST';
 
-  function ping() {
-    ws.send(
-      JSON.stringify({
-        event: 'ping',
-        cid: 1234
-      })
-    );
+const createChannel = (subscribeMsg: TSubscribeMsg) => (
+  emit: (data: any) => void
+) => {
+  let ws: WebSocket;
+  let pingTimeout: number;
+  let pingInterval: number;
 
-    pingTimeout = window.setTimeout(reloadChannel, 5000);
-  }
+  function init() {
+    ws = new WebSocket(API_BASE_URL.BITFINEX_PUBLIC_WS);
 
-  ws.onmessage = msg => {
-    const data = JSON.parse(msg.data);
-
-    if (data.event === 'pong') {
-      clearTimeout(pingTimeout);
-      return;
+    function onConnectionLost() {
+      emit({ event: ERR_CONNECTION_LOST });
+      ws.close();
+      clearInterval(pingInterval);
+      init();
     }
 
-    if (['info', 'subscribed'].includes(data.event) || data[1] === 'hb') {
-      return;
+    function ping() {
+      ws.send(PING_PAYLOAD);
+      console.log('ping...');
+      pingTimeout = window.setTimeout(() => onConnectionLost(), 5000);
     }
-    return emitter(data);
-  };
 
-  ws.onopen = () => {
-    console.log('opening ws...');
-    pingInterval = window.setInterval(ping, 5000);
-    ws.send(JSON.stringify(subscribeMsg));
-  };
+    function onMessage(msg: any) {
+      console.log('onmessage', msg);
+      const data = JSON.parse(msg.data);
+      const { event } = data;
 
-  ws.onerror = err => {
-    setTimeout(reloadChannel, 5000);
-    console.log(err);
-  };
+      if (event === 'pong') {
+        clearTimeout(pingTimeout);
+      }
+
+      return emit(data);
+    }
+
+    function onOpen() {
+      console.log('opening ws...');
+      pingInterval = window.setInterval(() => ping(), 10000);
+      ws.send(JSON.stringify(subscribeMsg));
+    }
+
+    function onClose() {
+      console.log('close');
+    }
+
+    function onError(err: any) {
+      console.error(err);
+      window.setTimeout(() => init(), 5000);
+    }
+
+    ws.onmessage = onMessage;
+    ws.onopen = onOpen;
+    ws.onclose = onClose;
+    ws.onerror = onError;
+  }
+
+  init();
 
   return () => {
     console.log('ws closed');
@@ -58,6 +78,8 @@ const createChannel = (subscribeMsg: TSubscribeMsg) => (emitter: any) => {
   };
 };
 
-export const openWs = (subscribeMsg: TSubscribeMsg): any => {
+export const openWs = (
+  subscribeMsg: TSubscribeMsg
+): EventChannel<WebSocket> => {
   return eventChannel(createChannel(subscribeMsg));
 };

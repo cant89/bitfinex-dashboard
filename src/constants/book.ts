@@ -4,4 +4,4 @@ export enum ACTION_TYPES {
   BOOK_WS_ON_MESSAGE = 'BOOK_WS_ON_MESSAGE'
 }
 
-export const PRECISION_TYPES = ['P0', 'P1', 'P2', 'P3', 'P04'];
+export const PRECISION_TYPES = ['P0', 'P01', 'P2', 'P3', 'P04'];

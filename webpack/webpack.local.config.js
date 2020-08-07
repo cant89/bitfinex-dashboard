@@ -28,7 +28,7 @@ module.exports = {
     ...plugins,
     new webpack.DefinePlugin({
       API_BASE_URL: {
-        BITFINEX_PUBLIC_WS: 'wss://api-pub.bitfinex.com/ws/2'
+        BITFINEX_PUBLIC_WS: JSON.stringify('wss://api-pub.bitfinex.com/ws/2')
       },
       'process.env': {}
     })

@@ -14,7 +14,8 @@ const Ticker: FunctionComponent<TProps> = ({ pair }) => {
   const { data, isLoading, error } = useSelector(getTickerSelector);
 
   useEffect(() => {
-    dispatch(tickerWsRequest(getSymbolFromPair(pair)));
+    const symbol = getSymbolFromPair(pair);
+    dispatch(tickerWsRequest(symbol));
   }, []);
 
   if (isLoading) {

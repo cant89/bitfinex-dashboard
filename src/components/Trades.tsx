@@ -11,7 +11,7 @@ type TProps = {
 
 const Trades: FunctionComponent<TProps> = ({ pair }) => {
   const dispatch = useDispatch();
-  const { data, dataOrder, isLoading, error } = useSelector(getTradesSelector);
+  const { data, isLoading, error } = useSelector(getTradesSelector);
 
   useEffect(() => {
     dispatch(tradesWsRequest(getSymbolFromPair(pair)));
@@ -29,10 +29,9 @@ const Trades: FunctionComponent<TProps> = ({ pair }) => {
     <>
       <h2>TRADES</h2>
       <section style={{ overflow: 'auto', height: '300px' }}>
-        {dataOrder.map(id => {
-          const { MTS, AMOUNT, PRICE } = data[id];
+        {data.map(({ ID, MTS, AMOUNT, PRICE }) => {
           return (
-            <div key={id}>
+            <div key={ID}>
               {AMOUNT} - {PRICE}
             </div>
           );
