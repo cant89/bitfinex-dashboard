@@ -14,7 +14,6 @@ The tech stack is:
 
 ## To do
 
-- Jest unit tests
 - Custom Styling
 - CI/CD
 - Depth Bars in Order Book

@@ -14,21 +14,13 @@ function* onTradesWsOnRequest({ payload }: ITradesWsRequest): SagaIterator {
 
   const channel = yield call(openWs, subscribeMessage);
 
-  try {
-    while (true) {
-      const message = yield take(channel);
-      console.log('here is the message: ', message);
+  while (true) {
+    const message = yield take(channel);
+    const { action, payload } = getActionByMessage(message);
 
-      const { action, payload } = getActionByMessage(message);
-
-      console.log(action, payload);
-
-      if (action) {
-        yield put(action(payload));
-      }
+    if (action) {
+      yield put(action(payload));
     }
-  } finally {
-    console.log('end');
   }
 }
 

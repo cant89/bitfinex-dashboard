@@ -3,7 +3,7 @@ import { takeEvery, call, take, put, fork } from 'redux-saga/effects';
 import { ACTION_TYPES } from '../../constants/book';
 import { openWs } from '../../services/ws';
 import { getActionByMessage } from './helpers';
-import { IBookWsRequest } from '../../actions/book';
+import { IBookWsRequest, bookWsClosed } from '../../actions/book';
 
 function* onBookWsOnRequest({
   payload: { symbol, precision }
@@ -23,18 +23,14 @@ function* onBookWsOnRequest({
   try {
     while (true) {
       const message = yield take(channel);
-      console.log('here is the message: ', message);
-
       const { action, payload } = getActionByMessage(message);
-
-      console.log(action, payload);
 
       if (action) {
         yield put(action(payload));
       }
     }
   } finally {
-    console.log('end');
+    yield put(bookWsClosed());
   }
 }
 

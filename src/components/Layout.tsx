@@ -1,16 +1,21 @@
-import React from "react";
-import Header from "./Header";
+import React from 'react';
+import Header from './Header';
+import styled from 'styled-components';
 
 type TProps = {
   children?: object;
 };
 
+const Wrapper = styled.section`
+  padding: 12px;
+`;
+
 const Layout: React.FunctionComponent<TProps> = ({ children }) => {
   return (
-    <section>
+    <div>
       <Header />
-      {children}
-    </section>
+      <Wrapper>{children}</Wrapper>
+    </div>
   );
 };
 

@@ -7,6 +7,8 @@ import { PRECISION_TYPES } from '../constants/book';
 import { getSymbolFromPair } from '../helpers';
 import FlexBox from '../shared/FlexBox';
 import FlexContainer from '../shared/FlexContainer';
+import Card from '../shared/Card';
+import Title from '../shared/Typography/Title';
 
 type TProps = {
   pair: string;
@@ -39,8 +41,8 @@ const Book: FunctionComponent<TProps> = ({ pair }) => {
   }
 
   return (
-    <section>
-      <h2>ORDER BOOK</h2>
+    <Card>
+      <Title type='h2'>Order Book</Title>
       <span>{precisionTypeIndex}</span>
       <button
         onClick={() =>
@@ -83,7 +85,7 @@ const Book: FunctionComponent<TProps> = ({ pair }) => {
           </FlexBox>
         </FlexContainer>
       )}
-    </section>
+    </Card>
   );
 };
 

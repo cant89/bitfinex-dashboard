@@ -9,7 +9,6 @@ import { ERR_CONNECTION_LOST } from '../../services/ws';
 
 const formatBookOrder = (trade: any) => {
   const [PRICE, COUNT, AMOUNT] = trade;
-  console.log(PRICE, COUNT, AMOUNT);
   return {
     PRICE,
     COUNT,

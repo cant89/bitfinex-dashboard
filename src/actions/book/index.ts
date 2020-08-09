@@ -56,3 +56,5 @@ export const bookWsMessage = (
 ): IBookWsMessage => action(ACTION_TYPES.BOOK_WS_MESSAGE, payload);
 
 export const bookWsClose = (): AnyAction => action(ACTION_TYPES.BOOK_WS_CLOSE);
+export const bookWsClosed = (): AnyAction =>
+  action(ACTION_TYPES.BOOK_WS_CLOSED);

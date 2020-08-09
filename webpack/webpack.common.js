@@ -39,8 +39,8 @@ module.exports = {
         loader: 'url-loader?limit=1024&name=fonts/[name].[ext]'
       },
       {
-        test: /\.(svg)$/,
-        loader: 'url-loader?limit=1024&name=svg/[name].[ext]'
+        test: /\.svg$/,
+        use: ['@svgr/webpack']
       }
     ]
   },

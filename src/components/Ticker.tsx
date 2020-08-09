@@ -4,6 +4,8 @@ import { getTickerSelector } from '../selectors/ticker';
 import { tickerWsRequest, TTicker } from '../actions/ticker';
 import Loader from '../shared/Loader';
 import { getSymbolFromPair } from '../helpers';
+import Card from '../shared/Card';
+import Title from '../shared/Typography/Title';
 
 type TProps = {
   pair: string;
@@ -31,16 +33,18 @@ const Ticker: FunctionComponent<TProps> = ({ pair }) => {
     DAILY_CHANGE_RELATIVE,
     LAST_PRICE,
     VOLUME,
-    LOW
+    LOW,
+    HIGH
   } = data as TTicker;
 
   return (
-    <section>
-      <h2>TICKER</h2>
+    <Card>
+      <Title type='h2'>Ticker</Title>
       <div>
         <p>BTC/USD</p>
-        <p>VOL. {VOLUME}</p>
+        <p>VOL. {VOLUME * LAST_PRICE}</p>
         <p>LOW {LOW}</p>
+        <p>HIGH {HIGH}</p>
       </div>
       <div>
         <p>
@@ -48,7 +52,7 @@ const Ticker: FunctionComponent<TProps> = ({ pair }) => {
         </p>
         <p>{LAST_PRICE}</p>
       </div>
-    </section>
+    </Card>
   );
 };
 

@@ -32,12 +32,10 @@ const createChannel = (subscribeMsg: TSubscribeMsg) => (
 
     function ping() {
       ws.send(PING_PAYLOAD);
-      console.log('ping...');
       pingTimeout = window.setTimeout(() => onConnectionLost(), 5000);
     }
 
     function onMessage(msg: any) {
-      console.log('onmessage', msg);
       const data = JSON.parse(msg.data);
       const { event } = data;
 
@@ -49,7 +47,6 @@ const createChannel = (subscribeMsg: TSubscribeMsg) => (
     }
 
     function onOpen() {
-      console.log('opening ws...');
       pingInterval = window.setInterval(() => ping(), 10000);
       ws.send(JSON.stringify(subscribeMsg));
     }
@@ -72,7 +69,6 @@ const createChannel = (subscribeMsg: TSubscribeMsg) => (
   init();
 
   return () => {
-    console.log('ws closed');
     ws.close();
     clearInterval(pingInterval);
   };

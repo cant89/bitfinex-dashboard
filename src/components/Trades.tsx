@@ -4,6 +4,8 @@ import { getTradesSelector } from '../selectors/trades';
 import { tradesWsRequest, TTrade } from '../actions/trades';
 import Loader from '../shared/Loader';
 import { getSymbolFromPair } from '../helpers';
+import Card from '../shared/Card';
+import Title from '../shared/Typography/Title';
 
 type TProps = {
   pair: string;
@@ -26,8 +28,8 @@ const Trades: FunctionComponent<TProps> = ({ pair }) => {
   }
 
   return (
-    <>
-      <h2>TRADES</h2>
+    <Card>
+      <Title type='h2'>Trades</Title>
       <section style={{ overflow: 'auto', height: '300px' }}>
         {data.map(({ ID, AMOUNT, PRICE }: TTrade) => {
           return (
@@ -37,7 +39,7 @@ const Trades: FunctionComponent<TProps> = ({ pair }) => {
           );
         })}
       </section>
-    </>
+    </Card>
   );
 };
 

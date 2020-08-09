@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const Box = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const FlexContainer: FunctionComponent = ({ children }) => {
