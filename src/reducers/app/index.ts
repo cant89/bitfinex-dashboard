@@ -1,4 +1,5 @@
 import { ACTION_TYPES } from '../../constants/app';
+import { AnyAction } from 'redux';
 
 export type TAppInitialState = {
   offline: boolean;
@@ -10,7 +11,7 @@ export const initialAppState: TAppInitialState = {
 
 const app = (
   state: TAppInitialState = initialAppState,
-  { type, payload }: any
+  { type }: AnyAction
 ) => {
   if (type === ACTION_TYPES.CONNECTION_LOST) {
     return {

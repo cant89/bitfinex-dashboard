@@ -7,15 +7,15 @@ const SIZES = {
   l: '97%'
 };
 
-const Box = styled.div`
-  width: ${({ size }: TProps) => SIZES[size]};
+const Box = styled.div<Required<TProps>>`
+  width: ${({ size }) => SIZES[size]};
   padding: 24px;
   margin: 1.5%;
 `;
 
-type TProps = {
+interface TProps {
   size?: keyof typeof SIZES;
-};
+}
 
 const FlexBox: FunctionComponent<TProps> = ({ children, size = 's' }) => {
   return <Box size={size}>{children}</Box>;

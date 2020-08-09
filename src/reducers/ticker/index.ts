@@ -2,7 +2,6 @@ import { ACTION_TYPES } from '../../constants/ticker';
 import {
   ITickerWsInfo,
   ITickerWsRequest,
-  ITickerWsSnapshot,
   ITickerWsSubscribed,
   ITickerWsMessage,
   TTicker
@@ -23,12 +22,7 @@ const ticker = (
   {
     type,
     payload
-  }:
-    | ITickerWsInfo
-    | ITickerWsRequest
-    | ITickerWsSnapshot
-    | ITickerWsSubscribed
-    | ITickerWsMessage
+  }: ITickerWsInfo | ITickerWsRequest | ITickerWsSubscribed | ITickerWsMessage
 ) => {
   if (type === ACTION_TYPES.TICKER_WS_REQUEST) {
     return {
@@ -42,7 +36,7 @@ const ticker = (
     return {
       ...state,
       isLoading: false,
-      data: payload
+      data: payload as ITickerWsMessage['payload']
     };
   }
 

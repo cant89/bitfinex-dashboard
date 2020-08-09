@@ -35,7 +35,7 @@ const trades = (
     return {
       ...state,
       isLoading: true,
-      data: undefined
+      data: []
     };
   }
 
@@ -43,7 +43,7 @@ const trades = (
     return {
       ...state,
       isLoading: false,
-      data: payload
+      data: payload as ITradesWsSnapshot['payload']
     };
   }
 

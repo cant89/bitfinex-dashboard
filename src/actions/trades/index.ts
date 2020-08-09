@@ -32,10 +32,10 @@ export const tradesWsSubscribed = (
 ): ITradesWsSubscribed => action(ACTION_TYPES.TRADES_WS_SUBSCRIBED, payload);
 
 export type TTrade = {
-  ID: string;
-  MTS: string;
-  AMOUNT: string;
-  PRICE: string;
+  ID: number;
+  MTS: number;
+  AMOUNT: number;
+  PRICE: number;
 };
 
 export interface ITradesWsSnapshot extends AnyAction {

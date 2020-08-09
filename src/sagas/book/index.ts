@@ -2,25 +2,39 @@ import { SagaIterator } from '@redux-saga/core';
 import { takeEvery, call, take, put, fork } from 'redux-saga/effects';
 import { ACTION_TYPES } from '../../constants/book';
 import { openWs } from '../../services/ws';
-import { bookWsOnMessage } from '../../actions/book';
-import { formatResponseMessage } from '../../services/formatters/book';
+import { getActionByMessage } from './helpers';
+import { IBookWsRequest } from '../../actions/book';
 
-function* onBookWsOnRequest({ payload }: any): SagaIterator {
+function* onBookWsOnRequest({
+  payload: { symbol, precision }
+}: IBookWsRequest): SagaIterator {
   const subscribeMessage = {
     event: 'subscribe',
     channel: 'book',
-    symbol: payload.symbol,
-    freq: 'F1',
-    prec: payload.precision
+    symbol,
+    prec: precision,
+    freq: 'F1'
   };
 
   const channel = yield call(openWs, subscribeMessage);
-  yield fork(watchChannelClose, { channel });
 
-  while (true) {
-    const message = yield take(channel);
-    const formattedMessage = formatResponseMessage(message);
-    yield put(bookWsOnMessage(formattedMessage));
+  yield fork(watchBookWsOnCloseAction, { channel });
+
+  try {
+    while (true) {
+      const message = yield take(channel);
+      console.log('here is the message: ', message);
+
+      const { action, payload } = getActionByMessage(message);
+
+      console.log(action, payload);
+
+      if (action) {
+        yield put(action(payload));
+      }
+    }
+  } finally {
+    console.log('end');
   }
 }
 
@@ -28,6 +42,10 @@ export function* watchBookWsOnRequestAction(): SagaIterator {
   yield takeEvery(ACTION_TYPES.BOOK_WS_REQUEST, onBookWsOnRequest);
 }
 
-function* watchChannelClose({ channel }): SagaIterator {
+export function* watchBookWsOnCloseAction({
+  channel
+}: {
+  channel: ReturnType<typeof openWs>;
+}): SagaIterator {
   yield takeEvery(ACTION_TYPES.BOOK_WS_CLOSE, channel.close);
 }

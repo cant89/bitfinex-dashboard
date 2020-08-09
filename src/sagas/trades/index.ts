@@ -3,8 +3,9 @@ import { takeEvery, call, take, put } from 'redux-saga/effects';
 import { ACTION_TYPES } from '../../constants/trades';
 import { openWs } from '../../services/ws';
 import { getActionByMessage } from './helpers';
+import { ITradesWsRequest } from 'actions/trades';
 
-function* onTradesWsOnRequest({ payload }: any): SagaIterator {
+function* onTradesWsOnRequest({ payload }: ITradesWsRequest): SagaIterator {
   const subscribeMessage = {
     event: 'subscribe',
     channel: 'trades',

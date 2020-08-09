@@ -1,7 +1,7 @@
 import React, { useEffect, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTickerSelector } from '../selectors/ticker';
-import { tickerWsRequest } from '../actions/ticker';
+import { tickerWsRequest, TTicker } from '../actions/ticker';
 import Loader from '../shared/Loader';
 import { getSymbolFromPair } from '../helpers';
 
@@ -27,17 +27,12 @@ const Ticker: FunctionComponent<TProps> = ({ pair }) => {
   }
 
   const {
-    BID,
-    BID_SIZE,
-    ASK,
-    ASK_SIZE,
     DAILY_CHANGE,
     DAILY_CHANGE_RELATIVE,
     LAST_PRICE,
     VOLUME,
-    HIGH,
     LOW
-  } = data;
+  } = data as TTicker;
 
   return (
     <section>

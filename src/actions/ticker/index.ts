@@ -32,16 +32,16 @@ export const tickerWsSubscribed = (
 ): ITickerWsSubscribed => action(ACTION_TYPES.TICKER_WS_SUBSCRIBED, payload);
 
 export type TTicker = {
-  BID: string;
-  BID_SIZE: string;
-  ASK: string;
-  ASK_SIZE: string;
-  DAILY_CHANGE: string;
-  DAILY_CHANGE_RELATIVE: string;
-  LAST_PRICE: string;
-  VOLUME: string;
-  HIGH: string;
-  LOW: string;
+  BID: number;
+  BID_SIZE: number;
+  ASK: number;
+  ASK_SIZE: number;
+  DAILY_CHANGE: number;
+  DAILY_CHANGE_RELATIVE: number;
+  LAST_PRICE: number;
+  VOLUME: number;
+  HIGH: number;
+  LOW: number;
 };
 export interface ITickerWsMessage extends AnyAction {
   payload: TTicker;

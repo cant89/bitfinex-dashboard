@@ -24,12 +24,14 @@ class Root extends Component<TRootProps> {
         <ConnectedRouter history={history}>
           <Suspense fallback={<Loader />}>
             <GlobalStyle />
-            <Layout>
-              <Switch>
-                <Route exact={true} path='/' component={Home} />
-                <Route component={Error404} />
-              </Switch>
-            </Layout>
+            <React.StrictMode>
+              <Layout>
+                <Switch>
+                  <Route exact={true} path='/' component={Home} />
+                  <Route component={Error404} />
+                </Switch>
+              </Layout>
+            </React.StrictMode>
           </Suspense>
         </ConnectedRouter>
       </Provider>

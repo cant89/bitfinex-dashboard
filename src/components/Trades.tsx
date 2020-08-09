@@ -1,7 +1,7 @@
 import React, { useEffect, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTradesSelector } from '../selectors/trades';
-import { tradesWsRequest } from '../actions/trades';
+import { tradesWsRequest, TTrade } from '../actions/trades';
 import Loader from '../shared/Loader';
 import { getSymbolFromPair } from '../helpers';
 
@@ -29,7 +29,7 @@ const Trades: FunctionComponent<TProps> = ({ pair }) => {
     <>
       <h2>TRADES</h2>
       <section style={{ overflow: 'auto', height: '300px' }}>
-        {data.map(({ ID, MTS, AMOUNT, PRICE }) => {
+        {data.map(({ ID, AMOUNT, PRICE }: TTrade) => {
           return (
             <div key={ID}>
               {AMOUNT} - {PRICE}

@@ -1,7 +1,7 @@
 import React, { useEffect, FunctionComponent, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBookSelector } from '../selectors/book';
-import { bookWsRequest, bookWsClose } from '../actions/book';
+import { bookWsRequest, TBookOrder, bookWsClose } from '../actions/book';
 import Loader from '../shared/Loader';
 import { PRECISION_TYPES } from '../constants/book';
 import { getSymbolFromPair } from '../helpers';
@@ -24,17 +24,15 @@ const Book: FunctionComponent<TProps> = ({ pair }) => {
   useEffect(() => {
     dispatch(bookWsClose());
 
+    const symbol = getSymbolFromPair(pair);
+
     dispatch(
       bookWsRequest({
-        symbol: getSymbolFromPair(pair),
+        symbol,
         precision: PRECISION_TYPES[precisionTypeIndex]
       })
     );
   }, [precisionTypeIndex]);
-
-  if (isLoading) {
-    return <Loader />;
-  }
 
   if (error) {
     return <div>Error</div>;
@@ -54,33 +52,37 @@ const Book: FunctionComponent<TProps> = ({ pair }) => {
       <button
         onClick={() =>
           setPrecisionTypeIndex(
-            Math.min(PRECISION_TYPES.length, precisionTypeIndex + 1)
+            Math.min(PRECISION_TYPES.length - 1, precisionTypeIndex + 1)
           )
         }
       >
         +
       </button>
-      <FlexContainer>
-        <FlexBox size='m'>
-          {asks.map(({ PRICE, COUNT, AMOUNT }, i) => {
-            return (
-              <div key={i}>
-                {COUNT} - {PRICE} - {AMOUNT}
-              </div>
-            );
-          })}
-        </FlexBox>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <FlexContainer>
+          <FlexBox size='m'>
+            {asks.map(({ PRICE, COUNT, AMOUNT }: TBookOrder, i: number) => {
+              return (
+                <div key={i}>
+                  {COUNT} - {PRICE} - {AMOUNT}
+                </div>
+              );
+            })}
+          </FlexBox>
 
-        <FlexBox size='m'>
-          {bids.map(({ PRICE, COUNT, AMOUNT }, i) => {
-            return (
-              <div key={i}>
-                {COUNT} - {PRICE} - {AMOUNT}
-              </div>
-            );
-          })}
-        </FlexBox>
-      </FlexContainer>
+          <FlexBox size='m'>
+            {bids.map(({ PRICE, COUNT, AMOUNT }: TBookOrder, i: number) => {
+              return (
+                <div key={i}>
+                  {COUNT} - {PRICE} - {AMOUNT}
+                </div>
+              );
+            })}
+          </FlexBox>
+        </FlexContainer>
+      )}
     </section>
   );
 };
