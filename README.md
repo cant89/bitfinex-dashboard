@@ -1,6 +1,7 @@
 # Bitfinex Dashboard
 
-Thanks to the Bitfinex public WebSocket API, I've created a real-time dashboard.
+Thanks to the Bitfinex public WebSocket API, I've created a real-time dashboard that shows Ticker, Trade and Orders Book.
+The application is also able to recover after the connection has been lost.
 
 The tech stack is:
 
@@ -16,6 +17,7 @@ The tech stack is:
 - Jest unit tests
 - Custom Styling
 - CI/CD
+- Depth Bars in Order Book
 - Code splitting for Reducers/Sagas
 
 ## Environment
