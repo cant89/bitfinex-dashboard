@@ -3,7 +3,7 @@ import { takeEvery, call, take, put } from 'redux-saga/effects';
 import { ACTION_TYPES } from '../../constants/ticker';
 import { openWs } from '../../services/ws';
 import { getActionByMessage } from './helpers';
-import { ITickerWsRequest } from 'actions/ticker';
+import { ITickerWsRequest } from '../../actions/ticker';
 
 function* onTickerWsOnRequest({ payload }: ITickerWsRequest): SagaIterator {
   const subscribeMessage = {
@@ -14,21 +14,13 @@ function* onTickerWsOnRequest({ payload }: ITickerWsRequest): SagaIterator {
 
   const channel = yield call(openWs, subscribeMessage);
 
-  try {
-    while (true) {
-      const message = yield take(channel);
-      console.log('here is the message: ', message);
+  while (true) {
+    const message = yield take(channel);
+    const { action, payload } = getActionByMessage(message);
 
-      const { action, payload } = getActionByMessage(message);
-
-      console.log(action, payload);
-
-      if (action) {
-        yield put(action(payload));
-      }
+    if (action) {
+      yield put(action(payload));
     }
-  } finally {
-    console.log('end');
   }
 }
 

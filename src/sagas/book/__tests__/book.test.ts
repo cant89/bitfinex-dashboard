@@ -1,13 +1,14 @@
 import { getActionByMessage } from '../helpers';
 import {
-  tickerWsInfo,
-  tickerWsSubscribed,
-  tickerWsMessage
-} from '../../../actions/ticker';
+  bookWsInfo,
+  bookWsSubscribed,
+  bookWsMessage,
+  bookWsSnapshot
+} from '../../../actions/book';
 import { ERR_CONNECTION_LOST } from '../../../services/ws';
 import { connectionLost } from '../../../actions/app';
 
-describe('Ticker Saga Helper', () => {
+describe('Book Saga Helper', () => {
   it('getActionByMessage should return proper object when message is of isPong', () => {
     const result = getActionByMessage({
       event: 'pong'
@@ -26,7 +27,7 @@ describe('Ticker Saga Helper', () => {
       serverId: 123
     });
     expect(result).toEqual({
-      action: tickerWsInfo,
+      action: bookWsInfo,
       payload: {
         serverId: 123
       }
@@ -38,26 +39,32 @@ describe('Ticker Saga Helper', () => {
       event: 'subscribed'
     });
     expect(result).toEqual({
-      action: tickerWsSubscribed
+      action: bookWsSubscribed
     });
   });
 
-  it('getActionByMessage should return proper object when message is of isTickerMessage', () => {
-    const result = getActionByMessage([123, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]);
+  it('getActionByMessage should return proper object when message is of isBookSnapshot', () => {
+    const result = getActionByMessage([
+      123,
+      [
+        [1, 2, 3],
+        [4, 5, 6]
+      ]
+    ]);
     expect(result).toEqual({
-      action: tickerWsMessage,
-      payload: {
-        BID: 1,
-        BID_SIZE: 2,
-        ASK: 3,
-        ASK_SIZE: 4,
-        DAILY_CHANGE: 5,
-        DAILY_CHANGE_RELATIVE: 6,
-        LAST_PRICE: 7,
-        VOLUME: 8,
-        HIGH: 9,
-        LOW: 10
-      }
+      action: bookWsSnapshot,
+      payload: [
+        { PRICE: 1, COUNT: 2, AMOUNT: 3 },
+        { PRICE: 4, COUNT: 5, AMOUNT: 6 }
+      ]
+    });
+  });
+
+  it('getActionByMessage should return proper object when message is of isBookMessage', () => {
+    const result = getActionByMessage([123, [1, 2, 3]]);
+    expect(result).toEqual({
+      action: bookWsMessage,
+      payload: { PRICE: 1, COUNT: 2, AMOUNT: 3 }
     });
   });
 

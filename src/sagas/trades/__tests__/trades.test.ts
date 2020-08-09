@@ -1,13 +1,14 @@
 import { getActionByMessage } from '../helpers';
 import {
-  tickerWsInfo,
-  tickerWsSubscribed,
-  tickerWsMessage
-} from '../../../actions/ticker';
+  tradesWsInfo,
+  tradesWsSubscribed,
+  tradesWsMessage,
+  tradesWsSnapshot
+} from '../../../actions/trades';
 import { ERR_CONNECTION_LOST } from '../../../services/ws';
 import { connectionLost } from '../../../actions/app';
 
-describe('Ticker Saga Helper', () => {
+describe('Trades Saga Helper', () => {
   it('getActionByMessage should return proper object when message is of isPong', () => {
     const result = getActionByMessage({
       event: 'pong'
@@ -26,7 +27,7 @@ describe('Ticker Saga Helper', () => {
       serverId: 123
     });
     expect(result).toEqual({
-      action: tickerWsInfo,
+      action: tradesWsInfo,
       payload: {
         serverId: 123
       }
@@ -38,25 +39,39 @@ describe('Ticker Saga Helper', () => {
       event: 'subscribed'
     });
     expect(result).toEqual({
-      action: tickerWsSubscribed
+      action: tradesWsSubscribed
     });
   });
 
-  it('getActionByMessage should return proper object when message is of isTickerMessage', () => {
-    const result = getActionByMessage([123, [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]);
+  it('getActionByMessage should return proper object when message is of isTradesSnapshot', () => {
+    const result = getActionByMessage([
+      123,
+      [
+        [1, 2, 3, 4],
+        [5, 6, 7, 8]
+      ]
+    ]);
     expect(result).toEqual({
-      action: tickerWsMessage,
+      action: tradesWsSnapshot,
+      payload: [
+        { ID: 1, MTS: 2, AMOUNT: 3, PRICE: 4 },
+        { ID: 5, MTS: 6, AMOUNT: 7, PRICE: 8 }
+      ]
+    });
+  });
+
+  it('getActionByMessage should return proper object when message is of isTradesMessage', () => {
+    const result = getActionByMessage([123, 'tu', [1, 2, 3, 4]]);
+    expect(result).toEqual({
+      action: tradesWsMessage,
       payload: {
-        BID: 1,
-        BID_SIZE: 2,
-        ASK: 3,
-        ASK_SIZE: 4,
-        DAILY_CHANGE: 5,
-        DAILY_CHANGE_RELATIVE: 6,
-        LAST_PRICE: 7,
-        VOLUME: 8,
-        HIGH: 9,
-        LOW: 10
+        updateType: 'tu',
+        trade: {
+          ID: 1,
+          MTS: 2,
+          AMOUNT: 3,
+          PRICE: 4
+        }
       }
     });
   });
