@@ -4,7 +4,7 @@ import {
   ITradesWsRequest,
   ITradesWsSnapshot,
   ITradesWsSubscribed,
-  ITradesWsUpdate,
+  ITradesWsMessage,
   TTrade
 } from 'actions/trades';
 
@@ -29,7 +29,7 @@ const trades = (
     | ITradesWsRequest
     | ITradesWsSnapshot
     | ITradesWsSubscribed
-    | ITradesWsUpdate
+    | ITradesWsMessage
 ) => {
   if (type === ACTION_TYPES.TRADES_WS_REQUEST) {
     return {
@@ -48,14 +48,14 @@ const trades = (
   }
 
   if (type === ACTION_TYPES.TRADES_WS_MESSAGE) {
-    if ((payload as ITradesWsUpdate['payload']).updateType === 'te') {
+    if ((payload as ITradesWsMessage['payload']).updateType === 'te') {
       return state;
     }
 
     return {
       ...state,
       data: [
-        (payload as ITradesWsUpdate['payload']).trade,
+        (payload as ITradesWsMessage['payload']).trade,
         ...state.data
       ].slice(0, 15)
     };

@@ -46,7 +46,7 @@ export const tradesWsSnapshot = (
   payload: ITradesWsSnapshot['payload']
 ): ITradesWsSnapshot => action(ACTION_TYPES.TRADES_WS_SNAPSHOT, payload);
 
-export interface ITradesWsUpdate extends AnyAction {
+export interface ITradesWsMessage extends AnyAction {
   payload: {
     updateType: string;
     trade: TTrade;
@@ -54,5 +54,5 @@ export interface ITradesWsUpdate extends AnyAction {
 }
 
 export const tradesWsMessage = (
-  payload: ITradesWsUpdate['payload']
-): ITradesWsUpdate => action(ACTION_TYPES.TRADES_WS_MESSAGE, payload);
+  payload: ITradesWsMessage['payload']
+): ITradesWsMessage => action(ACTION_TYPES.TRADES_WS_MESSAGE, payload);
