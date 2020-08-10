@@ -2,15 +2,30 @@ import React, { FunctionComponent } from 'react';
 import styled from 'styled-components';
 import Icon, { TIconProps } from './Icon';
 
-const StyledIconButton = styled(Icon)`
-  cursor: pointer;
+const Button = styled.button`
+  background: none;
+  border: none;
+  appearance: none;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  cursor: ${({ disabled }) => (disabled ? 'default' : 'pointer')};
+  opacity: ${({ disabled }) => (disabled ? '.5' : '1')};
 `;
 
-type TIconButtonProps = TIconProps &
-  React.ButtonHTMLAttributes<HTMLButtonElement>;
+type TIconButtonProps = TIconProps & {
+  buttonProps: React.ButtonHTMLAttributes<HTMLButtonElement>;
+};
 
-const IconButton: FunctionComponent<TIconButtonProps> = props => {
-  return <StyledIconButton {...props} />;
+const IconButton: FunctionComponent<TIconButtonProps> = ({
+  buttonProps,
+  ...rest
+}) => {
+  return (
+    <Button {...buttonProps}>
+      <Icon {...rest} />
+    </Button>
+  );
 };
 
 export default IconButton;

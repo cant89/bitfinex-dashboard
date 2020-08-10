@@ -41,15 +41,18 @@ const Book: FunctionComponent<TProps> = props => {
           <IconButton
             component={<RemoveIcon />}
             width='25px'
-            onClick={() =>
-              setPrecisionTypeIndex(Math.max(0, precisionTypeIndex - 1))
-            }
+            buttonProps={{
+              disabled: precisionTypeIndex === 0,
+              onClick: () =>
+                setPrecisionTypeIndex(Math.max(0, precisionTypeIndex - 1))
+            }}
           />
         </ButtonWrapper>
         <ButtonWrapper>
           <IconButton
             component={<AddIcon />}
             width='25px'
+            disabled={precisionTypeIndex === PRECISION_TYPES.length - 1}
             onClick={() =>
               setPrecisionTypeIndex(
                 Math.min(PRECISION_TYPES.length - 1, precisionTypeIndex + 1)
