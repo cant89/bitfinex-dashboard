@@ -30,7 +30,7 @@ const Trades: FunctionComponent<TProps> = ({ pair }) => {
   return (
     <Card>
       <Title type='h2'>Trades</Title>
-      <section style={{ overflow: 'auto', height: '300px' }}>
+      <section>
         {data.map(({ ID, AMOUNT, PRICE }: TTrade) => {
           return (
             <div key={ID}>

@@ -4,7 +4,7 @@ import { themeColors } from '../theme';
 
 const Section = styled.section`
   border: 1px solid ${themeColors.secondary};
-  padding: 8px 24px;
+  padding: 24px;
   border-radius: 8px;
 `;
 
