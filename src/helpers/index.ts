@@ -6,9 +6,12 @@ export const formatNumber = (number: number, decimal: number = 0): string => {
   const withDecimalAsString = number.toFixed(decimal);
   const asNumber = parseFloat(withDecimalAsString);
   const decimalsOfNumber = asNumber.toString().split('.')[1] || '';
+  const numberOfDecimalsInNumber = decimalsOfNumber.length;
   const zerosAtTheEnd =
-    decimal > 0 && decimalsOfNumber.length !== decimal
-      ? `.${new Array(decimal + 1 - decimalsOfNumber.length).join('0')}`
+    decimal > 0 && numberOfDecimalsInNumber !== decimal
+      ? `${numberOfDecimalsInNumber === 0 ? '.' : ''}${new Array(
+          decimal + 1 - decimalsOfNumber.length
+        ).join('0')}`
       : '';
   return asNumber.toLocaleString() + zerosAtTheEnd;
 };
