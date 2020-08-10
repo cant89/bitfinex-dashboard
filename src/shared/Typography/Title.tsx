@@ -10,21 +10,21 @@ const titles = {
     margin: 0 0 32px 0;
   `,
 
-  H2: styled.h1`
+  H2: styled.h2`
     color: ${themeColors.text.primary};
     font-size: 28px;
     font-weight: 300;
     margin: 0 0 28px 0;
   `,
 
-  H3: styled.h1`
+  H3: styled.h3`
     color: ${themeColors.text.primary};
     font-size: 24px;
     font-weight: 300;
     margin: 0 0 24px 0;
   `,
 
-  H4: styled.h1`
+  H4: styled.h4`
     color: ${themeColors.text.primary};
     font-size: 20px;
     font-weight: 300;
