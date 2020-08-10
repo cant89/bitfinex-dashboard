@@ -1,5 +1,6 @@
 import reducers, { initialTickerState } from '../';
 import { ACTION_TYPES } from '../../../constants/ticker';
+import { ITickerWsRequest } from 'actions/ticker';
 
 const sampleTicker = {
   BID: 123,
@@ -18,7 +19,7 @@ describe('Ticker Reducers', () => {
   it('should return the proper state when the action is TICKER_WS_REQUEST', () => {
     const result = reducers.ticker(initialTickerState, {
       type: ACTION_TYPES.TICKER_WS_REQUEST
-    });
+    } as ITickerWsRequest);
 
     expect(result).toEqual({
       ...initialTickerState,

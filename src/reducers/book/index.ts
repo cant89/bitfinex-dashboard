@@ -7,6 +7,7 @@ import {
   IBookWsMessage,
   TBookOrder
 } from 'actions/book';
+import { AnyAction } from 'redux';
 
 export type TBookInitialState = {
   data: {
@@ -46,6 +47,7 @@ const book = (
     | IBookWsSnapshot
     | IBookWsSubscribed
     | IBookWsMessage
+    | AnyAction
 ) => {
   if (type === ACTION_TYPES.BOOK_WS_REQUEST) {
     return {

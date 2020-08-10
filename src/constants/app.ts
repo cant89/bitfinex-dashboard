@@ -2,9 +2,3 @@ export enum ACTION_TYPES {
   CONNECTION_LOST = 'CONNECTION_LOST',
   CONNECTION_RESTORED = 'CONNECTION_RESTORED'
 }
-
-export const CURRENCIES = {
-  USD: '$',
-  EUR: '€',
-  BTC: 'B'
-};

@@ -1,5 +1,6 @@
 import reducers, { initialTradesState } from '../';
 import { ACTION_TYPES } from '../../../constants/trades';
+import { ITradesWsRequest } from 'actions/trades';
 
 const sampleTrade = {
   ID: 123,
@@ -12,7 +13,7 @@ describe('Trades Reducers', () => {
   it('should return the proper state when the action is TRADES_WS_REQUEST', () => {
     const result = reducers.trades(initialTradesState, {
       type: ACTION_TYPES.TRADES_WS_REQUEST
-    });
+    } as ITradesWsRequest);
 
     expect(result).toEqual({
       ...initialTradesState,

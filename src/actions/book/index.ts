@@ -34,9 +34,9 @@ export const bookWsSubscribed = (
 ): IBookWsSubscribed => action(ACTION_TYPES.BOOK_WS_SUBSCRIBED, payload);
 
 export type TBookOrder = {
-  PRICE: string;
-  COUNT: string;
-  AMOUNT: string;
+  PRICE: number;
+  COUNT: number;
+  AMOUNT: number;
 };
 
 export interface IBookWsSnapshot extends AnyAction {

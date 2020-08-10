@@ -2,18 +2,25 @@ export const getSymbolFromPair = (pair: string) => {
   return `t${pair}`;
 };
 
-export const formatNumber = (number: number, decimal: number = 0): string => {
-  const withDecimalAsString = number.toFixed(decimal);
-  const asNumber = parseFloat(withDecimalAsString);
-  const decimalsOfNumber = asNumber.toString().split('.')[1] || '';
-  const numberOfDecimalsInNumber = decimalsOfNumber.length;
-  const zerosAtTheEnd =
-    decimal > 0 && numberOfDecimalsInNumber !== decimal
-      ? `${numberOfDecimalsInNumber === 0 ? '.' : ''}${new Array(
-          decimal + 1 - decimalsOfNumber.length
-        ).join('0')}`
-      : '';
-  return asNumber.toLocaleString() + zerosAtTheEnd;
+type TFormatNumber = (data: {
+  number: number;
+  decimals?: number;
+  currency?: string;
+}) => string;
+
+export const formatNumber: TFormatNumber = ({
+  number,
+  decimals = 0,
+  currency
+}) => {
+  return new Intl.NumberFormat('en-US', {
+    ...(currency && {
+      style: 'currency',
+      currency
+    }),
+    minimumFractionDigits: decimals,
+    maximumFractionDigits: decimals
+  }).format(number);
 };
 
 const splitAt = (x: string, index: number): [string, string] => [
@@ -24,3 +31,6 @@ const splitAt = (x: string, index: number): [string, string] => [
 export const getCurrenciesFromPair = (pair: string) => {
   return splitAt(pair, 3);
 };
+
+export const getTimeFromTimestamp = (timestamp: number) =>
+  new Date(timestamp).toLocaleTimeString();

@@ -1,5 +1,7 @@
 import reducers, { initialBookState } from '../';
+import { IBookWsRequest } from '../../../actions/book';
 import { ACTION_TYPES } from '../../../constants/book';
+import { AnyAction } from 'redux';
 
 const sampleAsk = {
   PRICE: 123,
@@ -17,7 +19,7 @@ describe('Book Reducers', () => {
   it('should return the proper state when the action is BOOK_WS_REQUEST', () => {
     const result = reducers.book(initialBookState, {
       type: ACTION_TYPES.BOOK_WS_REQUEST
-    });
+    } as IBookWsRequest);
 
     expect(result).toEqual({
       ...initialBookState,
@@ -74,7 +76,7 @@ describe('Book Reducers', () => {
   it('should return the proper state when the action is BOOK_WS_CLOSE', () => {
     const result = reducers.book(initialBookState, {
       type: ACTION_TYPES.BOOK_WS_CLOSE
-    });
+    } as AnyAction);
 
     expect(result).toEqual({
       ...initialBookState,

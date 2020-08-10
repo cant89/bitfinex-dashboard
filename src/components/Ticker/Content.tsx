@@ -2,6 +2,7 @@ import React, { useEffect, FunctionComponent } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import TrendingUpIcon from '../../assets/trending_up.svg';
+import TrendingDownIcon from '../../assets/trending_down.svg';
 import Icon from '../../shared/Icon';
 import { getTickerSelector } from '../../selectors/ticker';
 import { tickerWsRequest, TTicker } from '../../actions/ticker';
@@ -12,7 +13,6 @@ import {
   getCurrenciesFromPair
 } from '../../helpers';
 import { themeColors } from '../../theme';
-import { CURRENCIES } from '../../constants/app';
 
 type TProps = {
   pair: string;
@@ -36,7 +36,7 @@ const LineTitle = styled.span`
   width: 50px;
 `;
 
-const Ticker: FunctionComponent<TProps> = ({ pair }) => {
+const TickerContent: FunctionComponent<TProps> = ({ pair }) => {
   const dispatch = useDispatch();
   const { data, isLoading, error } = useSelector(getTickerSelector);
 
@@ -67,14 +67,16 @@ const Ticker: FunctionComponent<TProps> = ({ pair }) => {
 
   return (
     <>
-      <Line big>
-        {CURRENCIES[curr2]} {formatNumber(LAST_PRICE)}
-      </Line>
+      <Line big>{formatNumber({ number: LAST_PRICE, currency: curr2 })}</Line>
       <Line
         color={isDailyChangePositive ? themeColors.success : themeColors.alert}
       >
-        {formatNumber(Math.abs(DAILY_CHANGE), 2)} (
-        {formatNumber(Math.abs(DAILY_CHANGE_RELATIVE * 100), 2)}%){' '}
+        {formatNumber({ number: Math.abs(DAILY_CHANGE), decimals: 2 })} (
+        {formatNumber({
+          number: Math.abs(DAILY_CHANGE_RELATIVE * 100),
+          decimals: 2
+        })}
+        %){' '}
         {isDailyChangePositive ? (
           <Icon
             component={<TrendingUpIcon />}
@@ -91,18 +93,21 @@ const Ticker: FunctionComponent<TProps> = ({ pair }) => {
       </Line>
       <Line>
         <LineTitle>VOL.</LineTitle>
-        {CURRENCIES[curr2]} {formatNumber(VOLUME * LAST_PRICE)}
+        {formatNumber({
+          number: VOLUME * LAST_PRICE,
+          currency: curr2
+        })}
       </Line>
       <Line>
         <LineTitle>LOW</LineTitle>
-        {CURRENCIES[curr2]} {formatNumber(LOW)}
+        {formatNumber({ number: LOW, currency: curr2 })}
       </Line>
       <Line>
         <LineTitle>HIGH</LineTitle>
-        {CURRENCIES[curr2]} {formatNumber(HIGH)}
+        {formatNumber({ number: HIGH, currency: curr2 })}
       </Line>
     </>
   );
 };
 
-export default Ticker;
+export default TickerContent;
