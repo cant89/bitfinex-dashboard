@@ -80,13 +80,13 @@ const TickerContent: FunctionComponent<TProps> = ({ pair }) => {
         {isDailyChangePositive ? (
           <Icon
             component={<TrendingUpIcon />}
-            width={20}
+            width='24px'
             color={themeColors.success}
           />
         ) : (
           <Icon
             component={<TrendingDownIcon />}
-            width={20}
+            width='24px'
             color={themeColors.alert}
           />
         )}

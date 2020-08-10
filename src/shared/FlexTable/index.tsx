@@ -5,6 +5,7 @@ const FlexTable = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+
 const FlexTableHead = styled.div`
   display: flex;
   width: 100%;
@@ -13,11 +14,13 @@ const FlexTableHead = styled.div`
   margin-bottom: 16px;
   border-bottom: 1px solid ${themeColors.text.secondary};
 `;
+
 const FlexTableBody = styled.div`
   display: flex;
   width: 100%;
   flex-wrap: wrap;
 `;
+
 const FlexTableRow = styled.div`
   display: flex;
   width: 100%;

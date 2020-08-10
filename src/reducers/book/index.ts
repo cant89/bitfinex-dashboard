@@ -69,8 +69,8 @@ const book = (
     return {
       ...state,
       data: {
-        bids: bids.slice(0, 25),
-        asks: asks.slice(0, 25)
+        bids: bids.slice(0, 15),
+        asks: asks.slice(0, 15)
       },
       isLoading: false
     };
@@ -85,8 +85,8 @@ const book = (
     return {
       ...state,
       data: {
-        bids: bids.slice(0, 25),
-        asks: asks.slice(0, 25)
+        bids: bids.slice(0, 15),
+        asks: asks.slice(0, 15)
       }
     };
   }
