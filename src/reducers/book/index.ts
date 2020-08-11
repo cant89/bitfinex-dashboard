@@ -34,21 +34,41 @@ const addOrderToBookData = (
   order: TBookOrder,
   book: TBookInitialState['data']
 ) => {
+  const isBid = Number(order.AMOUNT) > 0;
+  const isAsk = Number(order.AMOUNT) <= 0;
+  const toRemove = order.COUNT === 0;
+
+  if (toRemove && isBid) {
+    const { [order.PRICE]: orderToRemove, ...otherBids } = book.bids;
+
+    return {
+      ...book,
+      bids: otherBids
+    };
+  }
+
+  if (toRemove && isAsk) {
+    const { [order.PRICE]: orderToRemove, ...otherAsks } = book.asks;
+
+    return {
+      ...book,
+      asks: otherAsks
+    };
+  }
+
   return {
-    bids:
-      Number(order.AMOUNT) > 0
-        ? {
-            ...book.bids,
-            [order.PRICE]: order
-          }
-        : book.bids,
-    asks:
-      Number(order.AMOUNT) <= 0
-        ? {
-            ...book.asks,
-            [order.PRICE]: order
-          }
-        : book.asks
+    bids: isBid
+      ? {
+          ...book.bids,
+          [order.PRICE]: order
+        }
+      : book.bids,
+    asks: isAsk
+      ? {
+          ...book.asks,
+          [order.PRICE]: order
+        }
+      : book.asks
   };
 };
 

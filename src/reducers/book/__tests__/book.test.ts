@@ -81,6 +81,32 @@ describe('Book Reducers', () => {
     });
   });
 
+  it('should return the proper state when the action is BOOK_WS_MESSAGE with new PRICE with COUNT=0 and its a bid', () => {
+    const initialState = {
+      ...initialBookState,
+      isLoading: false,
+      data: {
+        asks: sampleAsksList,
+        bids: sampleBidsList
+      }
+    };
+
+    const payload = { ...sampleAsk, COUNT: 0 };
+    const result = reducers.book(initialState, {
+      type: ACTION_TYPES.BOOK_WS_MESSAGE,
+      payload
+    });
+
+    expect(result).toEqual({
+      ...initialState,
+      isLoading: false,
+      data: {
+        asks: {},
+        bids: sampleBidsList
+      }
+    });
+  });
+
   it('should return the proper state when the action is BOOK_WS_MESSAGE with new PRICE and its an ask', () => {
     const initialState = {
       ...initialBookState,
