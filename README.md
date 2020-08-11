@@ -1,6 +1,6 @@
 # Bitfinex Dashboard
 
-## Demo
+## Preview
 
 https://bitfinex.vercel.app/
 
