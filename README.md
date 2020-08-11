@@ -1,5 +1,11 @@
 # Bitfinex Dashboard
 
+## Demo
+
+https://bitfinex.vercel.app/
+
+## Overview
+
 Thanks to the Bitfinex public WebSocket API, I've created a real-time dashboard that shows Ticker, Trade and Orders Book.
 The application is also able to recover after the connection has been lost.
 
@@ -15,7 +21,6 @@ The tech stack is:
 ## To do
 
 - Handle multiple subscribes in one Web Socket
-- CI/CD
 - Code splitting for Reducers/Sagas
 
 ## Environment

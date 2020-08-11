@@ -13,7 +13,7 @@ function* onBookWsOnRequest({
     channel: 'book',
     symbol,
     prec: precision,
-    freq: 'F1'
+    freq: 'F0'
   };
 
   const channel = yield call(openWs, subscribeMessage);
