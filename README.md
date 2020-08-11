@@ -14,7 +14,6 @@ The tech stack is:
 
 ## To do
 
-- Depth Bars in Order Book
 - Handle multiple subscribes in one Web Socket
 - CI/CD
 - Code splitting for Reducers/Sagas

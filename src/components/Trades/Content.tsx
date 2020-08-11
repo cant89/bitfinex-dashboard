@@ -16,6 +16,10 @@ import {
   FlexTableRow,
   FlexTableCell
 } from '../../shared/FlexTable';
+import Icon from '../../shared/Icon';
+import ArrowDropUpIcon from '../../assets/arrow_drop_up.svg';
+import ArrowDropDownIcon from '../../assets/arrow_drop_down.svg';
+import { themeColors } from '../../theme';
 
 type TProps = {
   pair: string;
@@ -43,21 +47,31 @@ const TradesContent: FunctionComponent<TProps> = ({ pair }) => {
   return (
     <FlexTable>
       <FlexTableHead>
-        <FlexTableCell width='33%'>Time</FlexTableCell>
-        <FlexTableCell width='33%'>Price</FlexTableCell>
-        <FlexTableCell width='33%'>Amount</FlexTableCell>
+        <FlexTableCell width='10%' noPadding></FlexTableCell>
+        <FlexTableCell width='30%'>Time</FlexTableCell>
+        <FlexTableCell width='30%'>Price</FlexTableCell>
+        <FlexTableCell width='30%'>Amount</FlexTableCell>
       </FlexTableHead>
       <FlexTableBody>
         {data.map(({ ID, MTS, AMOUNT, PRICE }: TTrade) => {
           return (
             <FlexTableRow key={ID}>
-              <FlexTableCell width='33%'>
+              <FlexTableCell width='10%' noPadding>
+                <Icon
+                  component={
+                    AMOUNT > 0 ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />
+                  }
+                  width='24px'
+                  color={AMOUNT > 0 ? themeColors.success : themeColors.alert}
+                />
+              </FlexTableCell>
+              <FlexTableCell width='30%'>
                 {getTimeFromTimestamp(MTS)}
               </FlexTableCell>
-              <FlexTableCell width='33%'>
+              <FlexTableCell width='30%'>
                 {formatNumber({ number: PRICE, currency: curr2 })}
               </FlexTableCell>
-              <FlexTableCell width='33%'>
+              <FlexTableCell width='30%'>
                 {formatNumber({ number: Math.abs(AMOUNT), decimals: 4 })}
               </FlexTableCell>
             </FlexTableRow>

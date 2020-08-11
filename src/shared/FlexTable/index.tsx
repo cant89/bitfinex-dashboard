@@ -30,11 +30,12 @@ const FlexTableRow = styled.div`
 
 type TFlexTableCell = {
   width: string;
+  noPadding?: boolean;
 };
 
 const FlexTableCell = styled.div<TFlexTableCell>`
   display: flex;
-  padding: 0 16px;
+  padding: ${({ noPadding }) => (noPadding ? '0' : '0 16px')};
   width: ${({ width }) => width};
 `;
 

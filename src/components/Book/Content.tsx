@@ -8,6 +8,8 @@ import FlexBox from '../../shared/FlexBox';
 import FlexContainer from '../../shared/FlexContainer';
 import { PRECISION_TYPES } from '../../constants/book';
 import BookTable from './Table';
+import DepthBars from './DepthBars';
+import { themeColors } from '../../theme';
 
 type TProps = {
   pair: string;
@@ -43,8 +45,29 @@ const BookContent: FunctionComponent<TProps> = ({ pair, precision = 0 }) => {
     return <Loader />;
   }
 
+  const bidsData = Object.keys(bids)
+    .sort((a, b) => Number(a) - Number(b))
+    .map(price => ({
+      name: price,
+      count: bids[price].COUNT
+    }));
+
+  const asksData = Object.keys(asks)
+    .sort((a, b) => Number(a) - Number(b))
+    .map(price => ({
+      name: price,
+      count: asks[price].COUNT
+    }));
+
   return (
     <FlexContainer>
+      <FlexBox size='m'>
+        <DepthBars data={bidsData} color={themeColors.success} />
+      </FlexBox>
+      <FlexBox size='m'>
+        <DepthBars data={asksData} color={themeColors.alert} />
+      </FlexBox>
+
       <FlexBox size='m'>
         <BookTable data={bids} type='bids' pair={pair} />
       </FlexBox>

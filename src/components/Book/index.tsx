@@ -42,9 +42,11 @@ const Book: FunctionComponent<TProps> = props => {
             component={<RemoveIcon />}
             width='25px'
             buttonProps={{
-              disabled: precisionTypeIndex === 0,
+              disabled: precisionTypeIndex === PRECISION_TYPES.length - 1,
               onClick: () =>
-                setPrecisionTypeIndex(Math.max(0, precisionTypeIndex - 1))
+                setPrecisionTypeIndex(
+                  Math.min(PRECISION_TYPES.length - 1, precisionTypeIndex + 1)
+                )
             }}
           />
         </ButtonWrapper>
@@ -53,11 +55,9 @@ const Book: FunctionComponent<TProps> = props => {
             component={<AddIcon />}
             width='25px'
             buttonProps={{
-              disabled: precisionTypeIndex === PRECISION_TYPES.length - 1,
+              disabled: precisionTypeIndex === 0,
               onClick: () =>
-                setPrecisionTypeIndex(
-                  Math.min(PRECISION_TYPES.length - 1, precisionTypeIndex + 1)
-                )
+                setPrecisionTypeIndex(Math.max(0, precisionTypeIndex - 1))
             }}
           />
         </ButtonWrapper>
