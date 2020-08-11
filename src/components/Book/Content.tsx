@@ -61,12 +61,8 @@ const BookContent: FunctionComponent<TProps> = ({ pair, precision = 0 }) => {
 
   return (
     <FlexContainer>
-      <FlexBox size='m'>
-        <DepthBars data={bidsData} color={themeColors.success} />
-      </FlexBox>
-      <FlexBox size='m'>
-        <DepthBars data={asksData} color={themeColors.alert} />
-      </FlexBox>
+      <DepthBars data={bidsData} color={themeColors.success} />
+      <DepthBars data={asksData} color={themeColors.alert} />
 
       <FlexBox size='m'>
         <BookTable data={bids} type='bids' pair={pair} />

@@ -12,7 +12,7 @@ type TProps = {
 const DepthBars: FunctionComponent<TProps> = ({ data, color }) => {
   return (
     <>
-      <ResponsiveContainer width='100%' height={150}>
+      <ResponsiveContainer width='50%' height={150}>
         <BarChart
           width={300}
           height={100}

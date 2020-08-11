@@ -1,14 +1,9 @@
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { applyMiddleware, compose, createStore, combineReducers } from 'redux';
-import { createLogger } from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import { THistory, TReduxState, TSaga, TReduxStore } from '#/types';
 
 const sagaMiddleware = createSagaMiddleware();
-
-const logger = createLogger({
-  collapsed: true
-});
 
 type TCreateRootReducer = (history: THistory, reducers: object) => any;
 
@@ -37,9 +32,7 @@ const configureStore: TConfigureStore = (
   const store = createStore(
     createRootReducer(history, reducers),
     initialState,
-    composeEnhancer(
-      applyMiddleware(routerMiddleware(history), sagaMiddleware, logger)
-    )
+    composeEnhancer(applyMiddleware(routerMiddleware(history), sagaMiddleware))
   );
 
   sagaMiddleware.run(sagas);

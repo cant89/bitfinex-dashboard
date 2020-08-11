@@ -32,7 +32,7 @@ const createChannel = (subscribeMsg: TSubscribeMsg) => (
 
     function ping() {
       ws.send(PING_PAYLOAD);
-      pingTimeout = window.setTimeout(() => onConnectionLost(), 5000);
+      pingTimeout = window.setTimeout(() => onConnectionLost(), 3000);
     }
 
     function onMessage(msg: any) {
@@ -47,7 +47,7 @@ const createChannel = (subscribeMsg: TSubscribeMsg) => (
     }
 
     function onOpen() {
-      pingInterval = window.setInterval(() => ping(), 10000);
+      pingInterval = window.setInterval(() => ping(), 5000);
       ws.send(JSON.stringify(subscribeMsg));
     }
 

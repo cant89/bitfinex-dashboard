@@ -2,6 +2,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import React, { Component, Suspense, ReactNode } from 'react';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router';
+import { SnackbarProvider } from 'notistack';
 import Layout from './Layout';
 import { TReduxStore, THistory } from '#/types';
 import Error404 from './Error404';
@@ -25,12 +26,14 @@ class Root extends Component<TRootProps> {
           <Suspense fallback={<Loader />}>
             <GlobalStyle />
             <React.StrictMode>
-              <Layout>
-                <Switch>
-                  <Route exact={true} path='/' component={Home} />
-                  <Route component={Error404} />
-                </Switch>
-              </Layout>
+              <SnackbarProvider>
+                <Layout>
+                  <Switch>
+                    <Route exact={true} path='/' component={Home} />
+                    <Route component={Error404} />
+                  </Switch>
+                </Layout>
+              </SnackbarProvider>
             </React.StrictMode>
           </Suspense>
         </ConnectedRouter>

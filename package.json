@@ -22,6 +22,7 @@
     "precommit": "tsc && lint-staged"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
     "@types/react-router-dom": "^5.1.5",
     "@types/recharts": "^1.8.14",
     "@types/recompose": "^0.30.6",
@@ -31,6 +32,7 @@
     "connected-react-router": "6.3.1",
     "history": "^4.9.0",
     "moment": "^2.24.0",
+    "notistack": "^0.9.17",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.0.3",
