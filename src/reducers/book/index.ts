@@ -9,10 +9,14 @@ import {
 } from 'actions/book';
 import { AnyAction } from 'redux';
 
+export type TBookOrdersList = {
+  [PRICE: string]: TBookOrder;
+};
+
 export type TBookInitialState = {
   data: {
-    asks: TBookOrder[];
-    bids: TBookOrder[];
+    asks: TBookOrdersList;
+    bids: TBookOrdersList;
   };
   isLoading?: boolean;
   error?: any;
@@ -21,8 +25,8 @@ export type TBookInitialState = {
 export const initialBookState: TBookInitialState = {
   isLoading: true,
   data: {
-    asks: [],
-    bids: []
+    asks: {},
+    bids: {}
   }
 };
 
@@ -31,8 +35,20 @@ const addOrderToBookData = (
   book: TBookInitialState['data']
 ) => {
   return {
-    bids: Number(order.AMOUNT) > 0 ? [order, ...book.bids] : book.bids,
-    asks: Number(order.AMOUNT) <= 0 ? [order, ...book.asks] : book.asks
+    bids:
+      Number(order.AMOUNT) > 0
+        ? {
+            ...book.bids,
+            [order.PRICE]: order
+          }
+        : book.bids,
+    asks:
+      Number(order.AMOUNT) <= 0
+        ? {
+            ...book.asks,
+            [order.PRICE]: order
+          }
+        : book.asks
   };
 };
 
@@ -54,8 +70,8 @@ const book = (
       ...state,
       isLoading: true,
       data: {
-        asks: [],
-        bids: []
+        asks: {},
+        bids: {}
       }
     };
   }
@@ -66,11 +82,13 @@ const book = (
       state.data
     );
 
+    debugger;
+
     return {
       ...state,
       data: {
-        bids: bids.slice(0, 15),
-        asks: asks.slice(0, 15)
+        bids: bids,
+        asks: asks
       },
       isLoading: false
     };
@@ -82,11 +100,13 @@ const book = (
       state.data
     );
 
+    debugger;
+
     return {
       ...state,
       data: {
-        bids: bids.slice(0, 15),
-        asks: asks.slice(0, 15)
+        bids: bids,
+        asks: asks
       }
     };
   }
@@ -96,8 +116,8 @@ const book = (
       ...state,
       isLoading: false,
       data: {
-        asks: [],
-        bids: []
+        asks: {},
+        bids: {}
       }
     };
   }
