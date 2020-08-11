@@ -16,6 +16,7 @@ function* onTradesWsOnRequest({ payload }: ITradesWsRequest): SagaIterator {
 
   while (true) {
     const message = yield take(channel);
+    console.log('trade saga message', message);
     const { action, payload } = getActionByMessage(message);
 
     if (action) {

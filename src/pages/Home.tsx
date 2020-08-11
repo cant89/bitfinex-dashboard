@@ -17,9 +17,9 @@ const Home: FunctionComponent<TProps> = () => {
         <FlexBox>
           <Trades pair='BTCUSD' />
         </FlexBox>
-        <FlexBox size='m'>
+        {/* <FlexBox size='m'>
           <Book pair='BTCUSD' />
-        </FlexBox>
+        </FlexBox>{' '} */}
       </FlexContainer>
     </>
   );

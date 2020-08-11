@@ -16,6 +16,7 @@ function* onTickerWsOnRequest({ payload }: ITickerWsRequest): SagaIterator {
 
   while (true) {
     const message = yield take(channel);
+    console.log('ticker saga message', message);
     const { action, payload } = getActionByMessage(message);
 
     if (action) {
