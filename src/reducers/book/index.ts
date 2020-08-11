@@ -82,8 +82,6 @@ const book = (
       state.data
     );
 
-    debugger;
-
     return {
       ...state,
       data: {

@@ -13,4 +13,6 @@ declare module '*.svg' {
   export default content;
 }
 
+declare module 'react-spinner-material';
+
 declare type valueof<T> = T[keyof T];
