@@ -8,6 +8,10 @@ import {
   FlexTableBody,
   FlexTableRow
 } from '../../shared/FlexTable';
+import Icon from '../../shared/Icon';
+import { themeColors } from '../../theme';
+import ArrowDropUpIcon from '../../assets/arrow_drop_up.svg';
+import ArrowDropDownIcon from '../../assets/arrow_drop_down.svg';
 
 type TProps = {
   data: TBookOrdersList;
@@ -28,14 +32,16 @@ const getAsksArray = (asks: TProps['data']) =>
 const Table: FunctionComponent<TProps> = ({ data, pair, type }) => {
   const [, curr2] = getCurrenciesFromPair(pair);
 
-  const sortedRows = type === 'bids' ? getBidsArray(data) : getAsksArray(data);
+  const isBids = type === 'bids';
+
+  const sortedRows = isBids ? getBidsArray(data) : getAsksArray(data);
 
   return (
     <FlexTable>
       <FlexTableHead>
-        <FlexTableCell width='33.33%'>Count</FlexTableCell>
-        <FlexTableCell width='33.33%'>Amount</FlexTableCell>
-        <FlexTableCell width='33.33%'>Price</FlexTableCell>
+        <FlexTableCell width='30%'>Count</FlexTableCell>
+        <FlexTableCell width='30%'>Amount</FlexTableCell>
+        <FlexTableCell width='30%'>Price</FlexTableCell>
       </FlexTableHead>
       <FlexTableBody>
         {sortedRows.map((price: string) => {
@@ -43,11 +49,20 @@ const Table: FunctionComponent<TProps> = ({ data, pair, type }) => {
 
           return (
             <FlexTableRow key={PRICE}>
-              <FlexTableCell width='33.33%'>{COUNT}</FlexTableCell>
-              <FlexTableCell width='33.33%'>
-                {formatNumber({ number: AMOUNT, decimals: 4 })}
+              <FlexTableCell width='30%'>
+                <Icon
+                  component={
+                    isBids ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />
+                  }
+                  width='24px'
+                  color={isBids ? themeColors.success : themeColors.alert}
+                />
+                {COUNT}
               </FlexTableCell>
-              <FlexTableCell width='33.33%'>
+              <FlexTableCell width='30%'>
+                {formatNumber({ number: Math.abs(AMOUNT), decimals: 4 })}
+              </FlexTableCell>
+              <FlexTableCell width='30%'>
                 {formatNumber({ number: PRICE, currency: curr2 })}
               </FlexTableCell>
             </FlexTableRow>
