@@ -52,10 +52,12 @@ const createChannel = (subscribeMsg: TSubscribeMsg) => (
     }
 
     function onClose() {
+      /* eslint-disable no-console */
       console.log('close');
     }
 
     function onError(err: any) {
+      /* eslint-disable no-console */
       console.error(err);
       window.setTimeout(() => init(), 5000);
     }
