@@ -18,7 +18,8 @@
     "test": "jest --verbose --watchAll",
     "test:once": "jest --verbose",
     "test:once:coverage": "jest -i --verbose --coverage",
-    "check-types": "tsc"
+    "check-types": "tsc",
+    "precommit": "tsc && lint-staged"
   },
   "dependencies": {
     "@types/react-router-dom": "^5.1.5",
